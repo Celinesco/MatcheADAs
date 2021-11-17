@@ -32,12 +32,18 @@ const generadorDeGrilla = (rows,columns,array) => {
     return grilla
 }
 
-
+let ijRepetidosFilas = []
+let ijRepetidosColumnas = []
 
 let matchesEnColumnas = (matriz) => {
     for (let j = 0; j < matriz[0].length; j++) {
       for (let i = 0; i < matriz.length-2; i++) {
         if (matriz[i][j] === matriz[i+1][j] && matriz[i][j] === matriz[i+2][j]) {
+          if(ijRepetidosColumnas.length == 2) {
+            ijRepetidosColumnas = []
+          }
+            ijRepetidosColumnas.push(i)
+            ijRepetidosColumnas.push(j)
         return true
         }
       }
@@ -50,6 +56,11 @@ let matchesEnColumnas = (matriz) => {
     for (let i = 0; i < matriz.length; i++) {
       for (let j = 0; j < matriz[i].length-2; j++) {
         if (matriz[i][j] === matriz[i][j+1] && matriz[i][j] === matriz[i][j+2]) {
+          if(ijRepetidosFilas.length == 2) {
+            ijRepetidosFilas = []
+          }
+            ijRepetidosFilas.push(i)
+            ijRepetidosFilas.push(j)
           return true
         }
       }
@@ -168,6 +179,8 @@ let emojisOnClick = () => {
 }
 
 
+
+
   const dosElementosCliqueados = () => {
     if (arrayPosiciones.length == 4) {
       let x1 = arrayPosiciones[0]
@@ -176,7 +189,13 @@ let emojisOnClick = () => {
       let y2 = arrayPosiciones[3]
 
       if (movimientoPermitido()) {
+
         swapArrayElements(grilla, x1, y1, x2, y2)
+       
+        
+        hayMatches(grilla,x1,y1,x2,y2)
+
+
         mainContainer.innerHTML = " "
         crearGrillaEnHTML(grilla)
         emojisOnClick()
@@ -186,6 +205,38 @@ let emojisOnClick = () => {
       }
     }
 
+  }
+
+
+
+  const hayMatches = (array, x1,y1,x2,y2) => {
+   
+    if (matchesEnFila(array)) {
+      let i = ijRepetidosFilas[0]
+      let j = ijRepetidosFilas[1]
+      array[i][j] = []
+      array[i][j+1] = []
+      array[i][j+2] = []
+      
+    }
+
+    if (matchesEnColumnas(array)) {
+      let i = ijRepetidosColumnas[0]
+      let j = ijRepetidosColumnas[1]
+      console.log(i,j)
+
+      array[i][j] = []
+      array[i+1][j] = []
+      array[i+2][j] = []
+
+  
+      
+    }
+
+    // else {
+    //   swapArrayElements(array, x1, y1, x2, y2)
+    //   crearGrillaEnHTML(array)
+    // }
   }
 
 
@@ -208,3 +259,6 @@ let emojisOnClick = () => {
 
 
 emojisOnClick()
+
+
+
