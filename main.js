@@ -207,7 +207,7 @@ const dosElementosCliqueados = () => {
     }
     else {
       console.log('movimiento no permitido')
-      //aca en algún momento habrá que indicarles que vuelvan a su posición original 
+      
     }
   }
 
@@ -237,10 +237,8 @@ const hayMatches = (array) => {
   }
 
   while (matchesEnColumnas(array)) {
-
     let i = ijRepetidosColumnas[0]
     let j = ijRepetidosColumnas[1]
-
     array[i][j] = ''
     array[i + 1][j] = ''
     array[i + 2][j] = ''

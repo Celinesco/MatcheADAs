@@ -1,3 +1,8 @@
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     height: 100vh;
     background-color: black;
@@ -12,6 +17,7 @@ body {
     width: 560px;
     display: flex;
     flex-wrap: wrap;
+    border-radius: 10px;
 }
 
 .main-container div {
@@ -21,4 +27,18 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 30px;
+}
+
+.lista-emoji:hover {
+    background-color: rgb(151, 151, 151);
+    border-radius: 5px;
+}
+
+.lista-emoji:focus {
+    background-color: rgb(151, 151, 151);
+    border-radius: 5px;
+}
+
+.lista-emoji:active {
+    border: 1px solid white
 }
