@@ -5,17 +5,25 @@ let cuadrados = []
 const arrayDeEmojis = ["🐢", "🐙", "🦓", "🐘", "🐅", "🐋"]
 
 
-var swapArrayElements = function (arr, x1, y1, x2, y2) {
-  var temp = arr[x1][y1];
+let swapArrayElements = function (arr, x1, y1, x2, y2) {
+  let temp = arr[x1][y1];
   arr[x1][y1] = arr[x2][y2];
   arr[x2][y2] = temp;
 };
 
 
 
+Array.prototype.swap = function(a,b) {
+  swapCSS (this,a,b)
+}
+
+
+
 Array.prototype.swap = function (x1, y1, x2, y2) {
   swapArrayElements(this, x1, y1, x2, y2);
 };
+
+
 
 
 
@@ -133,15 +141,18 @@ let crearGrillaEnHTML = (array) => {
       cuadrado.setAttribute('class', 'lista-emoji');
       // cuadrado.setAttribute('draggable', true)
       // cuadrado.setAttribute('id', i*width+j)
-      cuadrado.setAttribute('fila', i)
-      cuadrado.setAttribute('columna', j)
-      cuadrado.textContent = array[i][j]
-      cuadrado.style.cursor = "pointer"
-      mainContainer.appendChild(cuadrado)
-      cuadrados.push(cuadrado)
+      cuadrado.setAttribute('data-x', i)
+      cuadrado.setAttribute('data-y', j)
+      cuadrado.setAttribute("id",i*width+j)
+      cuadrado.style.position = "relative";
+      cuadrado.style.top = `${i}px`
+      cuadrado.style.left = `${j}px`;
+      cuadrado.textContent = array[i][j];
+      cuadrado.style.cursor = "pointer";
+      mainContainer.appendChild(cuadrado);
+      cuadrados.push(cuadrado);
     }
   }
-
 }
 
 
@@ -151,8 +162,11 @@ crearGrillaEnHTML(grilla)
 
 
 
-let arrayPosiciones = []
+//  let posicionVertical = e.target.style.top
 
+
+let arrayPosiciones = []
+let arrayIDs = []
 
 
 let emojisOnClick = () => {
@@ -160,21 +174,26 @@ let emojisOnClick = () => {
   let listaEmoji = actualizarListaEmojis()
   listaEmoji.forEach((emoji) => {
     emoji.onclick = (e) => {
-
-      let x = e.target.getAttribute('fila')
-      let y = e.target.getAttribute('columna')
-
+      let x = emoji.dataset.x;
+      let y = emoji.dataset.y;
+      let id = e.target.getAttribute("id")
+      console.log(emoji)
+   
       if (arrayPosiciones.length == 4) {
         arrayPosiciones = []
       }
+
+      if (arrayIDs.length == 2) {
+        arrayIDs = []
+      }
+
+      arrayIDs.push(id)
       arrayPosiciones.push(x)
       arrayPosiciones.push(y)
-
+      console.log(arrayIDs)
       dosElementosCliqueados()
-
-
     }
-
+    
   })
 }
 
@@ -182,15 +201,31 @@ let emojisOnClick = () => {
 
 
 const dosElementosCliqueados = () => {
-  if (arrayPosiciones.length == 4) {
-    let x1 = arrayPosiciones[0]
-    let y1 = arrayPosiciones[1]
-    let x2 = arrayPosiciones[2]
-    let y2 = arrayPosiciones[3]
-    console.log(arrayPosiciones)
+  if (arrayPosiciones.length == 4 && arrayIDs.length == 2) {
+    let x1 = arrayPosiciones[0];
+    let y1 = arrayPosiciones[1];
+    let x2 = arrayPosiciones[2];
+    let y2 = arrayPosiciones[3];
+
+    
+    const cambiarPosicionCSS = () => {
+      let primerClick = document.getElementById(arrayIDs[0])
+      let segundoClick = document.getElementById(arrayIDs[1])
+      console.log(primerClick)
+      console.log(segundoClick)
+      primerClick.style.top = `${x2}px`;
+      primerClick.style.left = `${y2}px`;
+      segundoClick.style.top = `${x1}px`;
+      segundoClick.style.left = `${y1}px`;
+    }
+    
+
 
     if (movimientoPermitido()) {
+      
       swapArrayElements(grilla, x1, y1, x2, y2)
+      cambiarPosicionCSS()
+
 
       if(verificarSiHayMatches(grilla)) {
         hayMatches(grilla)
@@ -198,8 +233,6 @@ const dosElementosCliqueados = () => {
       else {
         swapArrayElements(grilla, x1, y1, x2, y2)
       }
-
-
       mainContainer.innerHTML = ""
       crearGrillaEnHTML(grilla)
       emojisOnClick()
@@ -207,10 +240,8 @@ const dosElementosCliqueados = () => {
     }
     else {
       console.log('movimiento no permitido')
-      
     }
   }
-
 }
 
 
@@ -249,7 +280,6 @@ const hayMatches = (array) => {
 
 
 
-
 let rellenarCasillasVacias = () => {
   for (let j = 0; j < 8; j++) {
     for (let vueltas = 0; vueltas < 8; vueltas++) {
@@ -278,7 +308,6 @@ let movimientoPermitido = () => {
   if (Math.abs(x1 - x2) + Math.abs(y1 - y2) == 1) {
     return true
   }
-
   else {
     return false
   }
@@ -288,6 +317,13 @@ let movimientoPermitido = () => {
 
 
 emojisOnClick()
+
+
+
+  //va a recibir dos elementos, y tiene que intercambiar sus top y left. 
+
+
+
 
 
 

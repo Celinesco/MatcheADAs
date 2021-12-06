@@ -13,8 +13,8 @@ body {
 
 .main-container {
     background-color: grey;
-    height: 560px;
-    width: 560px;
+    height: 620px;
+    width: 568px;
     display: flex;
     flex-wrap: wrap;
     border-radius: 10px;
@@ -27,6 +27,8 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 30px;
+    transition-property: left, top;
+    transition-duration: 0.8s;
 }
 
 .lista-emoji:hover {
