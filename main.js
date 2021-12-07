@@ -13,12 +13,6 @@ let swapArrayElements = function (arr, x1, y1, x2, y2) {
 
 
 
-Array.prototype.swap = function(a,b) {
-  swapCSS (this,a,b)
-}
-
-
-
 Array.prototype.swap = function (x1, y1, x2, y2) {
   swapArrayElements(this, x1, y1, x2, y2);
 };
@@ -144,9 +138,9 @@ let crearGrillaEnHTML = (array) => {
       cuadrado.setAttribute('data-x', i)
       cuadrado.setAttribute('data-y', j)
       cuadrado.setAttribute("id",i*width+j)
-      cuadrado.style.position = "relative";
-      cuadrado.style.top = `${i}px`
-      cuadrado.style.left = `${j}px`;
+      cuadrado.style.position = "absolute";
+      cuadrado.style.top = `${i * 70}px`
+      cuadrado.style.left = `${j * 70}px`;
       cuadrado.textContent = array[i][j];
       cuadrado.style.cursor = "pointer";
       mainContainer.appendChild(cuadrado);
@@ -177,7 +171,6 @@ let emojisOnClick = () => {
       let x = emoji.dataset.x;
       let y = emoji.dataset.y;
       let id = e.target.getAttribute("id")
-      console.log(emoji)
    
       if (arrayPosiciones.length == 4) {
         arrayPosiciones = []
@@ -190,13 +183,22 @@ let emojisOnClick = () => {
       arrayIDs.push(id)
       arrayPosiciones.push(x)
       arrayPosiciones.push(y)
-      console.log(arrayIDs)
       dosElementosCliqueados()
     }
     
   })
 }
 
+
+
+const cambiarPosicionCSS = (ax,ay,bx,by) => {
+  let primerClick = document.getElementById(arrayIDs[0])
+  let segundoClick = document.getElementById(arrayIDs[1])
+  primerClick.style.top = `${bx * 70}px`;
+  primerClick.style.left = `${by * 70}px`;
+  segundoClick.style.top = `${ax * 70}px`;
+  segundoClick.style.left = `${ay * 70}px`;
+}
 
 
 
@@ -206,38 +208,40 @@ const dosElementosCliqueados = () => {
     let y1 = arrayPosiciones[1];
     let x2 = arrayPosiciones[2];
     let y2 = arrayPosiciones[3];
-
+  
     
-    const cambiarPosicionCSS = () => {
-      let primerClick = document.getElementById(arrayIDs[0])
-      let segundoClick = document.getElementById(arrayIDs[1])
-      console.log(primerClick)
-      console.log(segundoClick)
-      primerClick.style.top = `${x2}px`;
-      primerClick.style.left = `${y2}px`;
-      segundoClick.style.top = `${x1}px`;
-      segundoClick.style.left = `${y1}px`;
-    }
+   
     
 
+ 
 
     if (movimientoPermitido()) {
-      
+    
+      cambiarPosicionCSS(x1,y1,x2,y2)
       swapArrayElements(grilla, x1, y1, x2, y2)
-      cambiarPosicionCSS()
 
+      if (!verificarSiHayMatches(grilla)) {
+        setTimeout(()=> {
+          cambiarPosicionCSS(x2,y2,x1,y1)
+        },900)
+       
+      }
 
       if(verificarSiHayMatches(grilla)) {
         hayMatches(grilla)
       }
-      else {
-        swapArrayElements(grilla, x1, y1, x2, y2)
-      }
-      mainContainer.innerHTML = ""
-      crearGrillaEnHTML(grilla)
-      emojisOnClick()
+
+      
+      // else {
+      //   swapArrayElements(grilla, x1, y1, x2, y2)
+      // }
+      // mainContainer.innerHTML = ""
+      // crearGrillaEnHTML(grilla)
+      // emojisOnClick()
 
     }
+
+
     else {
       console.log('movimiento no permitido')
     }

@@ -12,9 +12,10 @@ body {
 }
 
 .main-container {
+    position:relative;
     background-color: grey;
-    height: 620px;
-    width: 568px;
+    height: 560px;
+    width: 560px;
     display: flex;
     flex-wrap: wrap;
     border-radius: 10px;
@@ -28,7 +29,7 @@ body {
     align-items: center;
     font-size: 30px;
     transition-property: left, top;
-    transition-duration: 0.8s;
+    transition-duration: 1s;
 }
 
 .lista-emoji:hover {
