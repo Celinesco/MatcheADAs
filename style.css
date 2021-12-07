@@ -29,7 +29,8 @@ body {
     align-items: center;
     font-size: 30px;
     transition-property: left, top;
-    transition-duration: 1s;
+    transition-duration: 0.9s;
+
 }
 
 .lista-emoji:hover {
@@ -45,3 +46,9 @@ body {
 .lista-emoji:active {
     border: 1px solid white
 }
+
+h1 {
+    font-size: 400px;
+    color:white
+}
+

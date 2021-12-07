@@ -1,23 +1,24 @@
 
 const mainContainer = document.querySelector('.main-container');
 const width = 8;
-let cuadrados = []
-const arrayDeEmojis = ["🐢", "🐙", "🦓", "🐘", "🐅", "🐋"]
+let cuadrados = [];
+const arrayDeEmojis = ["🐢", "🐙", "🦓", "🐘", "🐅", "🐋"];
+let ijRepetidosFilas = [];
+let ijRepetidosColumnas = [];
+let arrayPosiciones = [];
+let arrayIDs = [];
 
 
-let swapArrayElements = function (arr, x1, y1, x2, y2) {
+let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
   let temp = arr[x1][y1];
   arr[x1][y1] = arr[x2][y2];
   arr[x2][y2] = temp;
 };
 
 
-
-Array.prototype.swap = function (x1, y1, x2, y2) {
-  swapArrayElements(this, x1, y1, x2, y2);
+Array.prototype.swapMatriz = function (x1, y1, x2, y2) {
+  intercambiarPosicionElementosEnMatriz(this, x1, y1, x2, y2);
 };
-
-
 
 
 
@@ -34,8 +35,7 @@ const generadorDeGrilla = (rows, columns, array) => {
   return grilla
 }
 
-let ijRepetidosFilas = []
-let ijRepetidosColumnas = []
+
 
 let matchesEnColumnas = (matriz) => {
   for (let j = 0; j < matriz[0].length; j++) {
@@ -82,46 +82,7 @@ let grillaSinMatches = (cantidad) => {
 
 grilla = grillaSinMatches(8)
 
-grillaEnUnSoloArray = []
 
-
-let convertirEnUnSoloArray = () => {
-  grilla.forEach((subarray) => {
-    subarray.forEach((item) => {
-      grillaEnUnSoloArray.push(item)
-    })
-  })
-
-}
-
-
-
-//  volverALaGrilla = () => {
-//   let grillaTodaJunta = [];
-//   for (let i = 0; i < 8; i++) {
-//     let subArray = [];
-//     for (let j = 0; j < 63; j++) {
-//       subArray.push(grillaEnUnSoloArray[j])
-//     }
-//     grillaTodaJunta.push(subArray)
-//   }
-//   return grillaTodaJunta
-//  }
-
-
-let volverALaGrilla = () => {
-  let arraySeparado = []
-  let subArray = []
-
-  for (let i = 0; i < 64; i++) {
-    subArray.push(grillaEnUnSoloArray[i])
-    if (subArray.length == 8) {
-      arraySeparado.push(subArray)
-      subArray = [];
-    }
-  }
-  return arraySeparado
-}
 
 let actualizarListaEmojis = () => {
   const listaEmoji = document.querySelectorAll('.lista-emoji')
@@ -154,13 +115,6 @@ crearGrillaEnHTML(grilla)
 
 // Variable hoisting
 
-
-
-//  let posicionVertical = e.target.style.top
-
-
-let arrayPosiciones = []
-let arrayIDs = []
 
 
 let emojisOnClick = () => {
@@ -209,26 +163,27 @@ const dosElementosCliqueados = () => {
     let x2 = arrayPosiciones[2];
     let y2 = arrayPosiciones[3];
   
-    
-   
-    
-
  
 
     if (movimientoPermitido()) {
     
       cambiarPosicionCSS(x1,y1,x2,y2)
-      swapArrayElements(grilla, x1, y1, x2, y2)
+      intercambiarPosicionElementosEnMatriz(grilla, x1, y1, x2, y2)
+      
 
       if (!verificarSiHayMatches(grilla)) {
+        
         setTimeout(()=> {
           cambiarPosicionCSS(x2,y2,x1,y1)
         },900)
-       
       }
 
       if(verificarSiHayMatches(grilla)) {
-        hayMatches(grilla)
+        let primerClick = document.getElementById(arrayIDs[0])
+        let segundoClick = document.getElementById(arrayIDs[1])
+        primerClick.setAttribute("id",arrayIDs[1])
+        segundoClick.setAttribute("id",arrayIDs[0])
+        vaciarMatches(grilla)
       }
 
       
@@ -257,18 +212,21 @@ const verificarSiHayMatches = (matriz) => {
   else false
 }
 
+let primerEmoji = document.getElementById("0")
 
-const hayMatches = (array) => {
+
+
+
+const vaciarMatches = (array) => {
   while (matchesEnFila(array)) {
     let i = ijRepetidosFilas[0]
     let j = ijRepetidosFilas[1]
-
     array[i][j] = ''
     array[i][j + 1] = ''
     array[i][j + 2] = ''
 
+    desvanecerFilasCSS(i,j)
     rellenarCasillasVacias()
-
   }
 
   while (matchesEnColumnas(array)) {
@@ -277,9 +235,43 @@ const hayMatches = (array) => {
     array[i][j] = ''
     array[i + 1][j] = ''
     array[i + 2][j] = ''
-
+    desvanecerColumnasCSS(i,j)
     rellenarCasillasVacias()
   }
+}
+
+const desvanecerColumnasCSS = (i, j) => {
+  let emoji1 = document.getElementById(i * width + j)
+  let emoji2 = document.getElementById((i + 1) * width + j)
+  let emoji3 = document.getElementById((i + 2) * width + j)
+
+  let fadeOut = (emoji) => {
+    setTimeout(() => {
+      emoji.style.transitionProperty = "opacity";
+      emoji.style.transitionDuration = "0.9s"
+      emoji.style.opacity = "0"
+    }, 600)
+  }
+  fadeOut(emoji1)
+  fadeOut(emoji2)
+  fadeOut(emoji3)
+}
+
+const desvanecerFilasCSS = (i, j) => {
+  let emoji1 = document.getElementById(i * width + j)
+  let emoji2 = document.getElementById(i * width + j +1)
+  let emoji3 = document.getElementById(i * width + j + 2)
+
+  let fadeOut = (emoji) => {
+    setTimeout(() => {
+      emoji.style.transitionProperty = "opacity";
+      emoji.style.transitionDuration = "0.9s"
+      emoji.style.opacity = "0"
+    }, 600)
+  }
+  fadeOut(emoji1)
+  fadeOut(emoji2)
+  fadeOut(emoji3)
 }
 
 
@@ -293,7 +285,7 @@ let rellenarCasillasVacias = () => {
             grilla[0][j] = arrayDeEmojis[Math.trunc(Math.random() * arrayDeEmojis.length)]
           }
           else {
-            swapArrayElements(grilla, i, j, i - 1, j)
+            intercambiarPosicionElementosEnMatriz(grilla, i, j, i - 1, j)
           }
         }
       }
@@ -319,13 +311,11 @@ let movimientoPermitido = () => {
 
 
 
-
 emojisOnClick()
 
 
 
   //va a recibir dos elementos, y tiene que intercambiar sus top y left. 
-
 
 
 
