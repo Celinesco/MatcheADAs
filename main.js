@@ -40,29 +40,20 @@ const generadorDeGrilla = (rows, columns, array) => {
 let matchesEnColumnas = (matriz) => {
   for (let j = 0; j < matriz[0].length; j++) {
     for (let i = 0; i < matriz.length - 2; i++) {
-      if (matriz[i][j] === matriz[i + 1][j] && matriz[i][j] === matriz[i + 2][j] && matriz[i][j] != '') {
-        if (ijRepetidosColumnas.length == 2) {
-          ijRepetidosColumnas = []
-        }
-        ijRepetidosColumnas.push(i)
-        ijRepetidosColumnas.push(j)
+      if (matriz[i][j] === matriz[i + 1][j] && matriz[i][j] === matriz[i + 2][j]) {
         return true
       }
     }
   }
   return false
 }
+
 
 
 let matchesEnFila = (matriz) => {
   for (let i = 0; i < matriz.length; i++) {
     for (let j = 0; j < matriz[i].length - 2; j++) {
       if (matriz[i][j] === matriz[i][j + 1] && matriz[i][j] === matriz[i][j + 2]) {
-        if (ijRepetidosFilas.length == 2) {
-          ijRepetidosFilas = []
-        }
-        ijRepetidosFilas.push(i)
-        ijRepetidosFilas.push(j)
         return true
       }
     }
@@ -71,7 +62,33 @@ let matchesEnFila = (matriz) => {
 }
 
 
-let grillaSinMatches = (cantidad) => {
+const identificarTriosEnFilas = (matriz) => {
+    for (let i = 0; i < matriz.length; i++) {
+      for (let j = 0; j < matriz[i].length - 2; j++) {
+        if (matriz[i][j] === matriz[i][j + 1] && matriz[i][j] === matriz[i][j + 2]) {
+          ijRepetidosFilas.push(i)
+          ijRepetidosFilas.push(j)
+        }
+      }
+    }
+}
+
+const identificarTriosEnColumnas = (matriz) => {
+  for (let j = 0; j < matriz[0].length; j++) {
+    for (let i = 0; i < matriz.length - 2; i++) {
+      if (matriz[i][j] === matriz[i + 1][j] && matriz[i][j] === matriz[i + 2][j]) {
+        ijRepetidosColumnas.push(i)
+        ijRepetidosColumnas.push(j)
+      }
+    }
+  }
+  
+}
+
+//En el arreglo ijRepetidosFilas voy a tener las i y las j donde hay matches por filas
+
+
+const grillaSinMatches = (cantidad) => {
   let grilla = generadorDeGrilla(cantidad, cantidad, arrayDeEmojis);
   while (matchesEnFila(grilla) || matchesEnColumnas(grilla)) {
     grilla = generadorDeGrilla(cantidad, cantidad, arrayDeEmojis);
@@ -83,13 +100,12 @@ let grillaSinMatches = (cantidad) => {
 grilla = grillaSinMatches(8)
 
 
-
-let actualizarListaEmojis = () => {
-  const listaEmoji = document.querySelectorAll('.lista-emoji')
+const actualizarListaEmojis = () => {
+  let listaEmoji = document.querySelectorAll('.lista-emoji')
   return listaEmoji
 }
 
-let crearGrillaEnHTML = (array) => {
+const crearGrillaEnHTML = (array) => {
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < width; j++) {
       const cuadrado = document.createElement('div');
@@ -117,7 +133,7 @@ crearGrillaEnHTML(grilla)
 
 
 
-let emojisOnClick = () => {
+const emojisOnClick = () => {
 
   let listaEmoji = actualizarListaEmojis()
   listaEmoji.forEach((emoji) => {
@@ -143,6 +159,13 @@ let emojisOnClick = () => {
   })
 }
 
+const imprimirGrillaLuegoDeAccion = () => {
+  setTimeout (()=> {
+    mainContainer.innerHTML = "";
+    crearGrillaEnHTML(grilla)
+    emojisOnClick()
+  },1500)
+}
 
 
 const cambiarPosicionCSS = (ax,ay,bx,by) => {
@@ -163,27 +186,32 @@ const dosElementosCliqueados = () => {
     let x2 = arrayPosiciones[2];
     let y2 = arrayPosiciones[3];
   
- 
-
     if (movimientoPermitido()) {
-    
       cambiarPosicionCSS(x1,y1,x2,y2)
       intercambiarPosicionElementosEnMatriz(grilla, x1, y1, x2, y2)
       
-
       if (!verificarSiHayMatches(grilla)) {
-        
         setTimeout(()=> {
           cambiarPosicionCSS(x2,y2,x1,y1)
         },900)
       }
 
       if(verificarSiHayMatches(grilla)) {
+        identificarTriosEnColumnas(grilla)
+        identificarTriosEnFilas(grilla)
         let primerClick = document.getElementById(arrayIDs[0])
         let segundoClick = document.getElementById(arrayIDs[1])
         primerClick.setAttribute("id",arrayIDs[1])
         segundoClick.setAttribute("id",arrayIDs[0])
+        
         vaciarMatches(grilla)
+        ijRepetidosColumnas = [];
+        ijRepetidosFilas = [];
+
+        
+        
+        imprimirGrillaLuegoDeAccion()
+        
       }
 
       
@@ -212,49 +240,24 @@ const verificarSiHayMatches = (matriz) => {
   else false
 }
 
-let primerEmoji = document.getElementById("0")
 
-
-
-
-const vaciarMatches = (array) => {
-  while (matchesEnFila(array)) {
-    let i = ijRepetidosFilas[0]
-    let j = ijRepetidosFilas[1]
-    array[i][j] = ''
-    array[i][j + 1] = ''
-    array[i][j + 2] = ''
-
-    desvanecerFilasCSS(i,j)
-    rellenarCasillasVacias()
-  }
-
-  while (matchesEnColumnas(array)) {
-    let i = ijRepetidosColumnas[0]
-    let j = ijRepetidosColumnas[1]
-    array[i][j] = ''
-    array[i + 1][j] = ''
-    array[i + 2][j] = ''
-    desvanecerColumnasCSS(i,j)
-    rellenarCasillasVacias()
-  }
+const desvanecerEmoji = (emoji) => {
+  setTimeout(() => {
+    emoji.style.transitionProperty = "opacity";
+    emoji.style.transitionDuration = "0.9s"
+    emoji.style.opacity = "0"
+  }, 600)
 }
+
 
 const desvanecerColumnasCSS = (i, j) => {
   let emoji1 = document.getElementById(i * width + j)
   let emoji2 = document.getElementById((i + 1) * width + j)
   let emoji3 = document.getElementById((i + 2) * width + j)
 
-  let fadeOut = (emoji) => {
-    setTimeout(() => {
-      emoji.style.transitionProperty = "opacity";
-      emoji.style.transitionDuration = "0.9s"
-      emoji.style.opacity = "0"
-    }, 600)
-  }
-  fadeOut(emoji1)
-  fadeOut(emoji2)
-  fadeOut(emoji3)
+  desvanecerEmoji(emoji1)
+  desvanecerEmoji(emoji2)
+  desvanecerEmoji(emoji3)
 }
 
 const desvanecerFilasCSS = (i, j) => {
@@ -262,17 +265,65 @@ const desvanecerFilasCSS = (i, j) => {
   let emoji2 = document.getElementById(i * width + j +1)
   let emoji3 = document.getElementById(i * width + j + 2)
 
-  let fadeOut = (emoji) => {
-    setTimeout(() => {
-      emoji.style.transitionProperty = "opacity";
-      emoji.style.transitionDuration = "0.9s"
-      emoji.style.opacity = "0"
-    }, 600)
-  }
-  fadeOut(emoji1)
-  fadeOut(emoji2)
-  fadeOut(emoji3)
+  desvanecerEmoji(emoji1)
+  desvanecerEmoji(emoji2)
+  desvanecerEmoji(emoji3)
 }
+
+
+const vaciarMatches = (matriz) => {
+  while (matchesEnColumnas(grilla) || matchesEnFila(grilla)) {
+    if (ijRepetidosFilas.length > 0) {
+      for (let i = 0; i < ijRepetidosFilas.length-1; i++) {
+        matriz[ijRepetidosFilas[i]][ijRepetidosFilas[i+1]] = "";
+        matriz[ijRepetidosFilas[i]][ijRepetidosFilas[i+1]+1] = "";
+        matriz[ijRepetidosFilas[i]][ijRepetidosFilas[i+1]+2] = "";
+        desvanecerFilasCSS(ijRepetidosFilas[i],ijRepetidosFilas[i+1])
+        rellenarCasillasVacias()
+      }
+    }
+  
+
+    if (ijRepetidosColumnas.length > 0) {
+      for (let j = 0; j < ijRepetidosColumnas.length-1; j++) {
+        matriz[ijRepetidosColumnas[j]][ijRepetidosColumnas[j+1]] = "";
+        matriz[ijRepetidosColumnas[j]+1][ijRepetidosColumnas[j+1]] = "";
+        matriz[ijRepetidosColumnas[j]+2][ijRepetidosColumnas[j+1]] = "";
+        desvanecerColumnasCSS(ijRepetidosColumnas[j],ijRepetidosColumnas[j+1])
+        rellenarCasillasVacias()
+      }
+    }
+    
+    
+  }
+
+}
+
+
+
+// const vaciarMatches = (array) => {
+//   while (matchesEnFila(array)) {
+//     let i = ijRepetidosFilas[0]
+//     let j = ijRepetidosFilas[1]
+//     array[i][j] = ''
+//     array[i][j + 1] = ''
+//     array[i][j + 2] = ''
+
+//     desvanecerFilasCSS(i,j)
+//     rellenarCasillasVacias()
+//   }
+
+//   while (matchesEnColumnas(array)) {
+//     let i = ijRepetidosColumnas[0]
+//     let j = ijRepetidosColumnas[1]
+//     array[i][j] = ''
+//     array[i + 1][j] = ''
+//     array[i + 2][j] = ''
+//     desvanecerColumnasCSS(i,j)
+//     rellenarCasillasVacias()
+//   }
+// }
+
 
 
 
@@ -314,10 +365,6 @@ let movimientoPermitido = () => {
 emojisOnClick()
 
 
-
-  //va a recibir dos elementos, y tiene que intercambiar sus top y left. 
-
-
-
+// Tengo que rehacer VaciarMatches y reemplazarla por una funcion que encuentre las posiciones de los matches, las guarde, y luego los borra. 
 
 
