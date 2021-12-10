@@ -130,6 +130,7 @@ const crearGrillaEnHTML = (array) => {
       cuadrado.style.top = `${i * 70}px`
       cuadrado.style.left = `${j * 70}px`;
       cuadrado.style.cursor = "pointer";
+      cuadrado.style.opacity = "1"
       cuadrado.textContent = array[i][j];
       mainContainer.appendChild(cuadrado);
     }
@@ -250,13 +251,13 @@ const desvanecerEmoji = (emoji) => {
 
 
 const vaciarMatches = (matriz) => {
-   if (matchesEnColumnas(grilla) || matchesEnFila(grilla)) {
+   while (matchesEnColumnas(grilla) || matchesEnFila(grilla)) {
     identificarTriosEnColumnas(grilla)
     identificarTriosEnFilas(grilla)
     
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < width; j++) {
-        if (elementosABorrar[i][j] == 1) {
+        if (elementosABorrar[i][j] === 1) {
           matriz[i][j] = null
           let emoji1 = document.getElementById(i * width + j)
           desvanecerEmoji(emoji1)
@@ -267,7 +268,7 @@ const vaciarMatches = (matriz) => {
     }
     rellenarCasillasVacias()
     elementosABorrar = grillaVacia()
-
+    console.log(grilla)
   }
 }
 
