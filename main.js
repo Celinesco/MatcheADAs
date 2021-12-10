@@ -270,11 +270,8 @@ const vaciarMatches = (matriz) => {
     setTimeout (()=> {
       if(verificarSiHayMatches(grilla)) {
         vaciarMatches(grilla)
-      
       }
     },1500)
-   
-    
 }
 
 

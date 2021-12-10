@@ -38,6 +38,7 @@ body {
     flex-wrap: wrap;
     border-radius: 10px;
     border: 3px groove white;
+    overflow: hidden;
 }
 
 .main-container div {
