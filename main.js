@@ -97,7 +97,6 @@ const identificarTriosEnColumnas = (matriz) => {
       }
     }
   }
-  
 }
 
 
@@ -130,7 +129,6 @@ const crearGrillaEnHTML = (array) => {
       cuadrado.style.top = `${i * 70}px`
       cuadrado.style.left = `${j * 70}px`;
       cuadrado.style.cursor = "pointer";
-      cuadrado.style.opacity = "1"
       cuadrado.textContent = array[i][j];
       mainContainer.appendChild(cuadrado);
     }
@@ -203,14 +201,15 @@ const dosElementosCliqueados = () => {
         intercambiarPosicionElementosEnMatriz(grilla, x1, y1, x2, y2)
       }
 
-      while (verificarSiHayMatches(grilla)) {
+      if (verificarSiHayMatches(grilla)) {
+
         let primerClick = document.getElementById(arrayIDs[0])
         let segundoClick = document.getElementById(arrayIDs[1])
         primerClick.setAttribute("id",arrayIDs[1])
         segundoClick.setAttribute("id",arrayIDs[0])
         vaciarMatches(grilla)
       
-        imprimirGrillaLuegoDeAccion()
+        
       }
 
       
@@ -231,13 +230,14 @@ const dosElementosCliqueados = () => {
 }
 
 
-
 const verificarSiHayMatches = (matriz) => {
   if (matchesEnColumnas(matriz) || matchesEnFila(matriz)) {
     return true
   }
   else false
 }
+
+let hayMatches = (matchesEnColumnas(grilla) || matchesEnFila(grilla))
 
 
 const desvanecerEmoji = (emoji) => {
@@ -249,28 +249,34 @@ const desvanecerEmoji = (emoji) => {
 
 
 
-
 const vaciarMatches = (matriz) => {
-   while (matchesEnColumnas(grilla) || matchesEnFila(grilla)) {
-    identificarTriosEnColumnas(grilla)
+
     identificarTriosEnFilas(grilla)
-    
+    identificarTriosEnColumnas(grilla)
+ 
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < width; j++) {
         if (elementosABorrar[i][j] === 1) {
-          matriz[i][j] = null
+          matriz[i][j] = null;
           let emoji1 = document.getElementById(i * width + j)
           desvanecerEmoji(emoji1)
         }
-        
       }
-      
     }
     rellenarCasillasVacias()
     elementosABorrar = grillaVacia()
-    console.log(grilla)
-  }
+    imprimirGrillaLuegoDeAccion()
+
+    setTimeout (()=> {
+      if(verificarSiHayMatches(grilla)) {
+        vaciarMatches(grilla)
+      
+      }
+    },1500)
+   
+    
 }
+
 
 
 
@@ -318,3 +324,13 @@ emojisOnClick()
 // Tengo que rehacer VaciarMatches y reemplazarla por una funcion que encuentre las posiciones de los matches, las guarde, y luego los borra. 
 
 
+//voy a probar hacer
+//let hay_matches = MatchHorizontal() || MatchVertical()
+
+//while (hay_matches) {
+
+//}
+
+//y hay_matches solo  cambia cuando termina el timeout
+
+//y en el timeout BAJo LOS NUEVOS ELEMENTOS e IMPRIMo EL TABLERO
