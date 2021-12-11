@@ -6,6 +6,7 @@ let ijRepetidosFilas = [];
 let ijRepetidosColumnas = [];
 let arrayPosiciones = [];
 let arrayIDs = [];
+let clickHabilitado = true;
 
 
 let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
@@ -142,10 +143,10 @@ crearGrillaEnHTML(grilla)
 // Variable hoisting
 
 const emojisOnClick = () => {
-
   let listaEmoji = actualizarListaEmojis()
   listaEmoji.forEach((emoji) => {
     emoji.onclick = (e) => {
+      if (!clickHabilitado) return;
       let x = emoji.dataset.x;
       let y = emoji.dataset.y;
       let id = e.target.getAttribute("id")
@@ -186,16 +187,18 @@ const cambiarPosicionCSS = (ax,ay,bx,by) => {
 
 const dosElementosCliqueados = () => {
   if (arrayPosiciones.length == 4 && arrayIDs.length == 2) {
+    clickHabilitado = false;
     let x1 = arrayPosiciones[0];
     let y1 = arrayPosiciones[1];
     let x2 = arrayPosiciones[2];
     let y2 = arrayPosiciones[3];
-  
     if (movimientoPermitido()) {
       cambiarPosicionCSS(x1,y1,x2,y2)
       intercambiarPosicionElementosEnMatriz(grilla, x1, y1, x2, y2)
       
       if (!verificarSiHayMatches(grilla)) {
+        clickHabilitado = false;
+
         setTimeout(()=> {
           cambiarPosicionCSS(x2,y2,x1,y1)
         },900)
@@ -209,22 +212,13 @@ const dosElementosCliqueados = () => {
         primerClick.setAttribute("id",arrayIDs[1])
         segundoClick.setAttribute("id",arrayIDs[0])
         vaciarMatches(grilla)
-      
-        
       }
-
-      
-      // else {
-      //   swapArrayElements(grilla, x1, y1, x2, y2)
-      // }
-      // mainContainer.innerHTML = ""
-      // crearGrillaEnHTML(grilla)
-      // emojisOnClick()
 
     }
 
 
     else {
+      clickHabilitado = true;
       console.log('movimiento no permitido')
     }
   }
@@ -232,10 +226,14 @@ const dosElementosCliqueados = () => {
 
 
 const verificarSiHayMatches = (matriz) => {
+  console.log("hola")
   if (matchesEnColumnas(matriz) || matchesEnFila(matriz)) {
     return true
   }
-  else false
+  setTimeout(()=> {
+    clickHabilitado = true;
+  },1800)
+  return false;
 }
 
 let hayMatches = (matchesEnColumnas(grilla) || matchesEnFila(grilla))
