@@ -26,22 +26,25 @@ body {
     background-image: url('images/fondo.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    overflow: hidden;
+    
+}
+
+.otracaja {
+    width: 566px;
 }
 
 .main-container {
     position:relative;
     background-color: rgba(11, 19, 12, 0.726);
     height: 566px;
-    width: 566px;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     border-radius: 10px;
     border: 3px groove white;
-    overflow: hidden;
 }
 
-.main-container div {
+.lista-emoji {
     height: 70px;
     width: 70px;
     display: flex;
@@ -50,7 +53,6 @@ body {
     font-size: 30px;
     transition-property: left, top;
     transition-duration: 0.9s;
-
 }
 
 .lista-emoji:hover {

@@ -1,11 +1,12 @@
 
-const mainContainer = document.querySelector('.main-container');
+const contenedorGrilla = document.querySelector('.main-container');
 const width = 8;
 const arrayDeEmojis = ["🐢", "🐙", "🦓", "🐘", "🐅", "🐋"];
 let ijRepetidosFilas = [];
 let ijRepetidosColumnas = [];
 let arrayPosiciones = [];
 let arrayIDs = [];
+
 
 let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
   let temp = arr[x1][y1];
@@ -130,7 +131,7 @@ const crearGrillaEnHTML = (array) => {
       cuadrado.style.left = `${j * 70}px`;
       cuadrado.style.cursor = "pointer";
       cuadrado.textContent = array[i][j];
-      mainContainer.appendChild(cuadrado);
+      contenedorGrilla.appendChild(cuadrado);
     }
   }
 }
@@ -165,7 +166,7 @@ const emojisOnClick = () => {
 
 const imprimirGrillaLuegoDeAccion = () => {
   setTimeout (()=> {
-    mainContainer.innerHTML = "";
+    contenedorGrilla.innerHTML = "";
     crearGrillaEnHTML(grilla)
     emojisOnClick()
   },1500)
