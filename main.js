@@ -1,4 +1,4 @@
-
+const puntajeDom = document.querySelector(".puntaje");
 const contenedorGrilla = document.querySelector('.main-container');
 const width = 8;
 const arrayDeEmojis = ["🐢", "🐙", "🦓", "🐘", "🐅", "🐋"];
@@ -7,6 +7,7 @@ let ijRepetidosColumnas = [];
 let arrayPosiciones = [];
 let arrayIDs = [];
 let clickHabilitado = true;
+let puntaje = 0;
 
 
 let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
@@ -226,13 +227,12 @@ const dosElementosCliqueados = () => {
 
 
 const verificarSiHayMatches = (matriz) => {
-  console.log("hola")
   if (matchesEnColumnas(matriz) || matchesEnFila(matriz)) {
     return true
   }
   setTimeout(()=> {
     clickHabilitado = true;
-  },1800)
+  },1500)
   return false;
 }
 
@@ -252,16 +252,20 @@ const vaciarMatches = (matriz) => {
 
     identificarTriosEnFilas(grilla)
     identificarTriosEnColumnas(grilla)
+  
  
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < width; j++) {
         if (elementosABorrar[i][j] === 1) {
+          puntaje += 1 * 10
           matriz[i][j] = null;
           let emoji1 = document.getElementById(i * width + j)
           desvanecerEmoji(emoji1)
         }
       }
     }
+   
+    imprimirPuntaje()
     rellenarCasillasVacias()
     elementosABorrar = grillaVacia()
     imprimirGrillaLuegoDeAccion()
@@ -274,6 +278,24 @@ const vaciarMatches = (matriz) => {
 }
 
 
+
+const imprimirPuntaje = () => {
+  for (let i = 1; i < 8; i++) {
+    if(puntaje >= 100*i && puntaje-20 <= 110*i) {
+      puntajeDom.style.color = "green";
+      setTimeout (() => {
+        puntajeDom.style.color = "white"
+      },800)
+  
+    }
+  }
+ 
+  puntajeDom.innerHTML = puntaje
+  puntajeDom.style.fontSize = "45px"
+  setTimeout (() => {
+    puntajeDom.style.fontSize = "30px"
+  },800)
+}
 
 
 
@@ -317,16 +339,4 @@ let movimientoPermitido = () => {
 emojisOnClick()
 
 
-// Tengo que rehacer VaciarMatches y reemplazarla por una funcion que encuentre las posiciones de los matches, las guarde, y luego los borra. 
-
-
-//voy a probar hacer
-//let hay_matches = MatchHorizontal() || MatchVertical()
-
-//while (hay_matches) {
-
-//}
-
-//y hay_matches solo  cambia cuando termina el timeout
-
-//y en el timeout BAJo LOS NUEVOS ELEMENTOS e IMPRIMo EL TABLERO
+// 

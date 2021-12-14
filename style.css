@@ -12,7 +12,7 @@ h1 {
     font-family: JustBubble;
     color: rgb(233, 170, 54);
     font-size: 90px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     -webkit-text-stroke: 1px rgb(0, 0, 0);;
 }
 
@@ -34,13 +34,13 @@ body {
 
 .main-container {
     position:relative;
-    background-color: rgba(11, 19, 12, 0.726);
+    border: 2px solid rgb(233, 170, 54);
+    background-color: rgba(0, 0, 0, 0.788);
     height: 566px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     border-radius: 10px;
-    border: 3px groove white;
 }
 
 .lista-emoji {
@@ -68,8 +68,42 @@ body {
     border: 1px solid white
 }
 
+.contenedor-puntaje, .record {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    background-color: rgb(0, 0, 0,0.788);
+    border: 2px solid rgb(233, 170, 54);
+    height: 100px;
+    border-radius: 5px;
+    color: white;
+
+}
+
+.puntaje {
+    font-size: 30px;
+    font-family: JustBubble;
+    transition-property: font-size, color;
+    transition-duration: 0.6s;
+}
+
+.contenedor-puntaje {
+    position: relative;
+    bottom: 540px;
+    right: 350px;
+}
+.record {
+    position: relative;
+    bottom: 350px;
+    right: 350px;
+}
+
 .timer {
-    border: 1px solid white;
+    position: relative;
+    bottom: 540px;
+    right: 350px;
+    border: 2px solid rgb(233, 170, 54);
     background-color: rgba(0, 0, 0, 0.788);
     width: 100px;
     text-align: center;
@@ -79,3 +113,4 @@ body {
     padding: 20px;
     font-size: 20px;
 }
+
