@@ -1,13 +1,14 @@
 const puntajeDom = document.querySelector(".puntaje");
 const contenedorGrilla = document.querySelector('.contenedor-grilla');
 const width = 8;
-const arrayDeEmojis = ["🐢", "🐙", "🦓", "🐘", "🐅", "🐋"];
+const arrayDeEmojis = ["🪲", "🐞", "🪱", "🐜", "🦁", "🐝"];
 let ijRepetidosFilas = [];
 let ijRepetidosColumnas = [];
 let arrayPosiciones = [];
 let arrayIDs = [];
 let clickHabilitado = true;
 let puntaje = 0;
+let record = 0;
 
 
 let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
@@ -20,6 +21,34 @@ let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
 Array.prototype.swapMatriz = function (x1, y1, x2, y2) {
   intercambiarPosicionElementosEnMatriz(this, x1, y1, x2, y2);
 };
+
+const convertirAJSON = (array) => {
+  let arrayConvertido = JSON.stringify(array);
+  return arrayConvertido
+}
+
+const guardarEnLocalStorage = (array, clave) => {
+  localStorage.setItem(clave, convertirAJSON(array))
+}
+
+const convertirDesdeJSON = (arrayJSON) => {
+  let JSONConvertido = JSON.parse(arrayJSON)
+  return JSONConvertido
+}
+
+const leerDesdeLocalStorage = (clave) => {
+  const json = localStorage.getItem(clave);
+  const array = convertirDesdeJSON(json);
+  return array
+}
+
+let recordAlmacenado = leerDesdeLocalStorage ('record_usuario');
+
+
+if (recordAlmacenado !== null) {
+  record = recordAlmacenado
+}
+
 
 
 const obtenerEmojiRandom = () => {
@@ -55,7 +84,7 @@ const grillaVacia = () => {
 let elementosABorrar = grillaVacia()
 
 
-let matchesEnColumnas = (matriz) => {
+const matchesEnColumnas = (matriz) => {
   for (let j = 0; j < matriz[0].length; j++) {
     for (let i = 0; i < matriz.length - 2; i++) {
       if (matriz[i][j] === matriz[i + 1][j] && matriz[i][j] === matriz[i + 2][j]) {
@@ -66,7 +95,7 @@ let matchesEnColumnas = (matriz) => {
   return false
 }
 
-let matchesEnFila = (matriz) => {
+const matchesEnFila = (matriz) => {
   for (let i = 0; i < matriz.length; i++) {
     for (let j = 0; j < matriz[i].length - 2; j++) {
       if (matriz[i][j] === matriz[i][j + 1] && matriz[i][j] === matriz[i][j + 2]) {
