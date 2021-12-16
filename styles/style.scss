@@ -115,8 +115,18 @@ p {
 }
 
 .cerrar-modal {
-    transform: translateY(-200%);
+    // transform: translateY(-300%);
 }
+
+
+button {
+    @include formato-tarjetas();
+    font-family: $tipografia-secundaria;
+    font-size: 30px;
+    color: $color-principal;
+    cursor: pointer;
+}
+
 
 .cerrar {
     color: $color-numeros;

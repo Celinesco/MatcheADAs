@@ -2,6 +2,7 @@ const puntajeDom = document.querySelector(".puntaje");
 const contenedorGrilla = document.querySelector('.contenedor-grilla');
 const cerrarModal = document.querySelectorAll(".cerrar");
 const ventanaModalTiempo = document.getElementById("modal-tiempo");
+const temporizador = document.getElementById("temporizador")
 
 const width = 8;
 const arrayDeEmojis = ["🪲", "🐞", "🪱", "🐜", "🦁", "🐝"];
@@ -12,6 +13,7 @@ let arrayIDs = [];
 let clickHabilitado = true;
 let puntaje = 0;
 let record = 0;
+let puntajeAnterior = 0;
 
 
 let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
@@ -285,7 +287,7 @@ const vaciarMatches = (matriz) => {
     identificarTriosEnFilas(grilla)
     identificarTriosEnColumnas(grilla)
   
- 
+    puntajeAnterior = puntaje;
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < width; j++) {
         if (elementosABorrar[i][j] === 1) {
@@ -312,15 +314,19 @@ const vaciarMatches = (matriz) => {
 
 
 const imprimirPuntaje = () => {
-  for (let i = 1; i < 8; i++) {
-    if(puntaje >= 100*i && puntaje-20 <= 110*i) {
+  console.log(puntaje)
+  console.log(puntajeAnterior)
+  let puntajeActualSinResto = puntaje - puntaje%100;
+  let puntajeAnteriorSinResto = puntajeAnterior - puntajeAnterior%100;
+
+    if( puntajeActualSinResto != puntajeAnteriorSinResto ) {
       puntajeDom.style.color = "green";
       setTimeout (() => {
         puntajeDom.style.color = "white"
       },800)
   
     }
-  }
+
  
   puntajeDom.innerHTML = puntaje
   puntajeDom.style.fontSize = "50px"
@@ -369,11 +375,27 @@ let movimientoPermitido = () => {
 
 cerrarModal.forEach((cruz)=> {
   cruz.onclick = () => {
-    ventanaModalTiempo.style.display = "none"
+    ventanaModalTiempo.style.display = "none";
   }
 })
 
 emojisOnClick()
 
 
-// 
+// const activarTemporizador = () => {
+//   let segundos = 0;
+//   let minutos = 2;
+//   let tiempo = setInterval(()=> {
+//     if(segundos == 0) {
+//       minutos - 1;
+//       segundos = 59;
+//       segundos--;
+//     }
+//     if (minutos == 0  && segundos == 0) {
+//       clearInterval(tiempo)
+//     }
+//     console.log(`minutos: ${minutos} segundos: ${segundos}`)
+//   },1000)
+// } 
+// // 
+// activarTemporizador()

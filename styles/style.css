@@ -137,6 +137,19 @@ p {
   transition: transform 0.9s;
   transform: translateY(0); }
 
+button {
+  border-radius: 5px;
+  border: 2px solid #e9aa36;
+  background-color: rgba(0, 0, 0, 0.788);
+  margin: 10px 5px;
+  padding: 20px;
+  color: white;
+  font-family: JustBubble;
+  font-family: myGame;
+  font-size: 30px;
+  color: #e9aa36;
+  cursor: pointer; }
+
 .cerrar {
   color: white;
   font-family: myGame;
