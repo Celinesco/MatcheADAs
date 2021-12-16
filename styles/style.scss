@@ -1,0 +1,98 @@
+@import "reset";
+@import "variables";
+@import "mixin";
+
+
+@font-face {
+    font-family: JustBubble;
+    src: url("../just_bubble/JustBubble.ttf") format("opentype");
+}
+
+h1 {
+    font-family: $tipografia-principal;
+    color: $color-principal;
+    font-size: 90px;
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+}
+
+body {
+    height: 100vh;
+    @include flex-centrar();
+    background-image: url('../images/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.contenedor-principal {
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor-grilla {
+    position: relative;
+    @include formato-tarjetas();
+    height: 566px;
+    width: 566px;
+    border-radius: 10px;
+}
+
+.lista-emoji {
+    @include flex-centrar;
+    height: 70px;
+    width: 70px;
+    font-size: 30px;
+    transition-property: left, top;
+    transition-duration: 0.9s;
+}
+
+.lista-emoji:hover {
+    background-color: rgb(151, 151, 151);
+    border-radius: 5px;
+}
+
+.lista-emoji:focus {
+    background-color: rgb(151, 151, 151);
+    border-radius: 5px;
+}
+
+.lista-emoji:active {
+    border: 1px solid white
+}
+
+.contenedor-puntaje, .record {
+    @include formato-tarjetas();
+    @include flex-centrar();
+    width: 140px;
+    height: 120px;
+}
+
+.contenedor-puntajes {
+    width: 150px;
+}
+
+
+.puntaje {
+    font-size: 40px;
+    font-family: $tipografia-principal;
+    transition-property: font-size, color;
+    transition-duration: 0.6s;
+}
+
+
+.record {
+    padding: $padding;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+p {
+    margin-top: 0;
+}
+
+.timer {
+    @include formato-tarjetas();
+    @include flex-centrar();
+    font-size: 20px;
+    margin-bottom: 100px;
+    height: 100px;
+}
+

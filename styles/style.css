@@ -1,0 +1,111 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+@font-face {
+  font-family: JustBubble;
+  src: url("../just_bubble/JustBubble.ttf") format("opentype"); }
+h1 {
+  font-family: JustBubble;
+  color: #e9aa36;
+  font-size: 90px;
+  -webkit-text-stroke: 1px black; }
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../images/fondo.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.contenedor-principal {
+  display: flex;
+  justify-content: center; }
+
+.contenedor-grilla {
+  position: relative;
+  border-radius: 5px;
+  border: 2px solid #e9aa36;
+  background-color: rgba(0, 0, 0, 0.788);
+  margin: 10px 5px;
+  padding: 20px;
+  color: white;
+  font-family: JustBubble;
+  height: 566px;
+  width: 566px;
+  border-radius: 10px; }
+
+.lista-emoji {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  width: 70px;
+  font-size: 30px;
+  transition-property: left, top;
+  transition-duration: 0.9s; }
+
+.lista-emoji:hover {
+  background-color: #979797;
+  border-radius: 5px; }
+
+.lista-emoji:focus {
+  background-color: #979797;
+  border-radius: 5px; }
+
+.lista-emoji:active {
+  border: 1px solid white; }
+
+.contenedor-puntaje, .record {
+  border-radius: 5px;
+  border: 2px solid #e9aa36;
+  background-color: rgba(0, 0, 0, 0.788);
+  margin: 10px 5px;
+  padding: 20px;
+  color: white;
+  font-family: JustBubble;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 140px;
+  height: 120px; }
+
+.contenedor-puntajes {
+  width: 150px; }
+
+.puntaje {
+  font-size: 40px;
+  font-family: JustBubble;
+  transition-property: font-size, color;
+  transition-duration: 0.6s; }
+
+.record {
+  padding: 20px;
+  font-family: 'Courier New', Courier, monospace; }
+
+p {
+  margin-top: 0; }
+
+.timer {
+  border-radius: 5px;
+  border: 2px solid #e9aa36;
+  background-color: rgba(0, 0, 0, 0.788);
+  margin: 10px 5px;
+  padding: 20px;
+  color: white;
+  font-family: JustBubble;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  margin-bottom: 100px;
+  height: 100px; }
+
+/*# sourceMappingURL=style.css.map */

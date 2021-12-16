@@ -1,0 +1,16 @@
+@mixin flex-centrar($direccion: column, $content: center) {
+    display: flex;
+    flex-direction: $direccion;
+    justify-content: $content;
+    align-items: center;
+  }
+
+  @mixin formato-tarjetas {
+      border-radius: $borde-redondeado;
+      border: $bordes-tarjetas;
+      background-color: rgba(0,0,0,0.788);
+      margin: $margen-tarjetas;
+      padding: $padding;
+      color: $color-numeros;
+      font-family: $tipografia-principal;
+  }

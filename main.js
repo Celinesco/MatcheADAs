@@ -1,5 +1,5 @@
 const puntajeDom = document.querySelector(".puntaje");
-const contenedorGrilla = document.querySelector('.main-container');
+const contenedorGrilla = document.querySelector('.contenedor-grilla');
 const width = 8;
 const arrayDeEmojis = ["🐢", "🐙", "🦓", "🐘", "🐅", "🐋"];
 let ijRepetidosFilas = [];
@@ -232,7 +232,7 @@ const verificarSiHayMatches = (matriz) => {
   }
   setTimeout(()=> {
     clickHabilitado = true;
-  },1500)
+  },1000)
   return false;
 }
 
@@ -291,9 +291,9 @@ const imprimirPuntaje = () => {
   }
  
   puntajeDom.innerHTML = puntaje
-  puntajeDom.style.fontSize = "45px"
+  puntajeDom.style.fontSize = "50px"
   setTimeout (() => {
-    puntajeDom.style.fontSize = "30px"
+    puntajeDom.style.fontSize = "40px"
   },800)
 }
 
