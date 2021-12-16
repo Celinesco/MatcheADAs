@@ -5,7 +5,12 @@
 
 @font-face {
     font-family: JustBubble;
-    src: url("../just_bubble/JustBubble.ttf") format("opentype");
+    src: url("tipografias/just_bubble/JustBubble.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: myGame;
+    src: url("tipografias/my_game/my\ game.ttf");
 }
 
 h1 {
@@ -81,8 +86,9 @@ body {
 
 .record {
     padding: $padding;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: $tipografia-secundaria;
 }
+
 
 p {
     margin-top: 0;
@@ -94,5 +100,31 @@ p {
     font-size: 20px;
     margin-bottom: 100px;
     height: 100px;
+}
+
+.contenedor-modal-tiempo {
+    @include contenedor-modales()
+}
+
+.modal {
+    @include modales();
+    @include flex-centrar($direccion: column, $content: space-evenly);
+    position: relative;
+    transition: transform 0.9s;
+    transform: translateY(0);
+}
+
+.cerrar-modal {
+    transform: translateY(-200%);
+}
+
+.cerrar {
+    color: $color-numeros;
+    font-family: $tipografia-secundaria;
+    font-size: 30px;
+    position: relative;
+    top: 5px;
+    right: 150px; 
+    cursor: pointer;
 }
 

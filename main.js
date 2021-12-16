@@ -1,5 +1,8 @@
 const puntajeDom = document.querySelector(".puntaje");
 const contenedorGrilla = document.querySelector('.contenedor-grilla');
+const cerrarModal = document.querySelectorAll(".cerrar");
+const ventanaModalTiempo = document.getElementById("modal-tiempo");
+
 const width = 8;
 const arrayDeEmojis = ["🪲", "🐞", "🪱", "🐜", "🦁", "🐝"];
 let ijRepetidosFilas = [];
@@ -364,6 +367,11 @@ let movimientoPermitido = () => {
 }
 
 
+cerrarModal.forEach((cruz)=> {
+  cruz.onclick = () => {
+    ventanaModalTiempo.style.display = "none"
+  }
+})
 
 emojisOnClick()
 
