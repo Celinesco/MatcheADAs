@@ -96,8 +96,8 @@ p {
 
 .timer {
     @include formato-tarjetas();
-    @include flex-centrar();
-    font-size: 20px;
+    @include flex-centrar($direccion: row);
+    font-size: 30px;
     margin-bottom: 100px;
     height: 100px;
 }
@@ -108,7 +108,7 @@ p {
 
 .modal {
     @include modales();
-    @include flex-centrar($direccion: column, $content: space-evenly);
+    @include flex-centrar($direccion: column, $content: space-around);
     position: relative;
     transition: transform 0.9s;
     transform: translateY(0);
@@ -132,9 +132,6 @@ button {
     color: $color-numeros;
     font-family: $tipografia-secundaria;
     font-size: 30px;
-    position: relative;
-    top: 5px;
-    right: 150px; 
     cursor: pointer;
 }
 

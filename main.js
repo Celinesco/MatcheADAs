@@ -2,7 +2,11 @@ const puntajeDom = document.querySelector(".puntaje");
 const contenedorGrilla = document.querySelector('.contenedor-grilla');
 const cerrarModal = document.querySelectorAll(".cerrar");
 const ventanaModalTiempo = document.getElementById("modal-tiempo");
-const temporizador = document.getElementById("temporizador")
+const temporizador = document.getElementById("temporizador");
+const botonEmpezar = document.getElementById("start");
+const segundosHTML = document.getElementById("segundosHTML");
+const minutosHTML = document.getElementById("minutosHTML")
+
 
 const width = 8;
 const arrayDeEmojis = ["🪲", "🐞", "🪱", "🐜", "🦁", "🐝"];
@@ -382,20 +386,34 @@ cerrarModal.forEach((cruz)=> {
 emojisOnClick()
 
 
-// const activarTemporizador = () => {
-//   let segundos = 0;
-//   let minutos = 2;
-//   let tiempo = setInterval(()=> {
-//     if(segundos == 0) {
-//       minutos - 1;
-//       segundos = 59;
-//       segundos--;
-//     }
-//     if (minutos == 0  && segundos == 0) {
-//       clearInterval(tiempo)
-//     }
-//     console.log(`minutos: ${minutos} segundos: ${segundos}`)
-//   },1000)
-// } 
-// // 
-// activarTemporizador()
+const activarTemporizador = () => {
+  
+  let minutos = 2;
+  let segundos = 0;
+ 
+  let tiempo = setInterval(()=> {
+   
+    if(segundos == 0) {
+      minutos -= 1;
+      segundos = 60;
+    }
+    segundos --;
+    minutosHTML.textContent = minutos
+    if (segundos < 10) {
+      segundosHTML.textContent = `0${segundos}`
+    }
+     else {
+      segundosHTML.textContent = segundos
+     }
+  
+    if (minutos == 0  && segundos == 0) {
+      clearInterval(tiempo)
+    }
+  },1000)
+} 
+// 
+
+
+botonEmpezar.onclick = () => {
+  activarTemporizador()
+}
