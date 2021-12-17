@@ -64,7 +64,7 @@ body {
 .lista-emoji:active {
   border: 1px solid white; }
 
-.contenedor-puntaje, .record {
+.contenedor-puntaje, .recordC {
   border-radius: 5px;
   border: 2px solid #e9aa36;
   background-color: rgba(0, 0, 0, 0.788);
@@ -88,12 +88,14 @@ body {
   transition-property: font-size, color;
   transition-duration: 0.6s; }
 
-.record {
+.recordC {
   padding: 20px;
   font-family: myGame; }
 
-p {
-  margin-top: 0; }
+#record {
+  color: white;
+  font-size: 50px;
+  font-family: JustBubble; }
 
 .timer {
   border-radius: 5px;
@@ -137,6 +139,9 @@ p {
   transition: transform 0.9s;
   transform: translateY(0); }
 
+.cerrar-modal {
+  transform: translateY(-300%); }
+
 button {
   border-radius: 5px;
   border: 2px solid #e9aa36;
@@ -155,5 +160,8 @@ button {
   font-family: myGame;
   font-size: 30px;
   cursor: pointer; }
+
+.ishidden {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
