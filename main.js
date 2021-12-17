@@ -1,5 +1,16 @@
 const puntajeDom = document.querySelector(".puntaje");
 const contenedorGrilla = document.querySelector('.contenedor-grilla');
+const contenedorModalTiempo = document.getElementById("contenedor-modal-tiempo")
+const modalTiempo = document.getElementById("modal-tiempo");
+const cerrarModalGameOver = document.getElementById("cerrar-modal-game-over");
+const temporizador = document.getElementById("temporizador");
+const botonEmpezar = document.getElementById("start");
+const segundosHTML = document.getElementById("segundosHTML");
+const minutosHTML = document.getElementById("minutosHTML");
+const recordHTML = document.getElementById("record");
+
+
+
 const width = 8;
 const arrayDeEmojis = ["🪲", "🐞", "🪱", "🐜", "🦁", "🐝"];
 let ijRepetidosFilas = [];
@@ -8,7 +19,7 @@ let arrayPosiciones = [];
 let arrayIDs = [];
 let clickHabilitado = true;
 let puntaje = 0;
-let record = 0;
+let puntajeAnterior = 0;
 
 
 let intercambiarPosicionElementosEnMatriz = function (arr, x1, y1, x2, y2) {
@@ -42,11 +53,14 @@ const leerDesdeLocalStorage = (clave) => {
   return array
 }
 
+
 let recordAlmacenado = leerDesdeLocalStorage ('record_usuario');
 
 
+
 if (recordAlmacenado !== null) {
-  record = recordAlmacenado
+  recordHTML.textContent = recordAlmacenado
+ 
 }
 
 
@@ -150,6 +164,7 @@ const actualizarListaEmojis = () => {
 }
 
 const crearGrillaEnHTML = (array) => {
+  
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < width; j++) {
       const cuadrado = document.createElement('div');
@@ -168,7 +183,7 @@ const crearGrillaEnHTML = (array) => {
 }
 
 
-crearGrillaEnHTML(grilla)
+
 
 // Variable hoisting
 
@@ -245,8 +260,6 @@ const dosElementosCliqueados = () => {
       }
 
     }
-
-
     else {
       clickHabilitado = true;
       console.log('movimiento no permitido')
@@ -282,7 +295,7 @@ const vaciarMatches = (matriz) => {
     identificarTriosEnFilas(grilla)
     identificarTriosEnColumnas(grilla)
   
- 
+    puntajeAnterior = puntaje;
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < width; j++) {
         if (elementosABorrar[i][j] === 1) {
@@ -309,15 +322,17 @@ const vaciarMatches = (matriz) => {
 
 
 const imprimirPuntaje = () => {
-  for (let i = 1; i < 8; i++) {
-    if(puntaje >= 100*i && puntaje-20 <= 110*i) {
+  let puntajeActualSinResto = puntaje - puntaje%100;
+  let puntajeAnteriorSinResto = puntajeAnterior - puntajeAnterior%100;
+
+    if( puntajeActualSinResto != puntajeAnteriorSinResto ) {
       puntajeDom.style.color = "green";
       setTimeout (() => {
         puntajeDom.style.color = "white"
       },800)
   
     }
-  }
+
  
   puntajeDom.innerHTML = puntaje
   puntajeDom.style.fontSize = "50px"
@@ -348,7 +363,6 @@ let rellenarCasillasVacias = () => {
 }
 
 
-
 let movimientoPermitido = () => {
   let x1 = arrayPosiciones[0]
   let y1 = arrayPosiciones[1]
@@ -364,8 +378,61 @@ let movimientoPermitido = () => {
 }
 
 
+cerrarModalGameOver.onclick = () => {
+  modalTiempo.classList.add("cerrar-modal")
+  setTimeout (()=> {
+    contenedorModalTiempo.classList.add("ishidden")
+  },700)
+  contenedorGrilla.innerHTML = ""
+  crearGrillaEnHTML(grilla)
+}
 
-emojisOnClick()
 
 
-// 
+const activarTemporizador = () => {
+  
+  let minutos = 1;
+  let segundos = 30;
+ 
+  let tiempo = setInterval(()=> {
+   
+    if(segundos == 0) {
+      minutos -= 1;
+      segundos = 60;
+    }
+    segundos --;
+    minutosHTML.textContent = minutos
+    if (segundos < 10) {
+      segundosHTML.textContent = `0${segundos}`
+    }
+     else {
+      segundosHTML.textContent = segundos
+     }
+  
+    if (minutos == 0  && segundos == 0) {
+      clearInterval(tiempo)
+      contenedorModalTiempo.classList.remove("ishidden")
+      modalTiempo.classList.remove("cerrar-modal")
+      guardarPuntajeLocalStorage()
+    }
+  },1000)
+} 
+
+
+const guardarPuntajeLocalStorage = () => {
+  if (leerDesdeLocalStorage("record_usuario") < puntaje) {
+    guardarEnLocalStorage(puntaje, "record_usuario")
+    recordHTML.textContent = puntaje
+  }
+}
+
+
+
+
+botonEmpezar.onclick = () => {
+  contenedorGrilla.innerHTML = "";
+  crearGrillaEnHTML(grilla);
+  emojisOnClick();
+  activarTemporizador();
+  
+}

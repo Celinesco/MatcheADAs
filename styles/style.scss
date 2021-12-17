@@ -5,7 +5,12 @@
 
 @font-face {
     font-family: JustBubble;
-    src: url("../just_bubble/JustBubble.ttf") format("opentype");
+    src: url("tipografias/just_bubble/JustBubble.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: myGame;
+    src: url("tipografias/my_game/my\ game.ttf");
 }
 
 h1 {
@@ -59,7 +64,7 @@ body {
     border: 1px solid white
 }
 
-.contenedor-puntaje, .record {
+.contenedor-puntaje, .recordC {
     @include formato-tarjetas();
     @include flex-centrar();
     width: 140px;
@@ -79,20 +84,59 @@ body {
 }
 
 
-.record {
+.recordC {
     padding: $padding;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: $tipografia-secundaria;
 }
 
-p {
-    margin-top: 0;
+#record {
+    color: white;
+    font-size: 40px;
+    font-family: $tipografia-principal;
 }
+
 
 .timer {
     @include formato-tarjetas();
-    @include flex-centrar();
-    font-size: 20px;
+    @include flex-centrar($direccion: row);
+    font-size: 30px;
     margin-bottom: 100px;
     height: 100px;
 }
 
+.contenedor-modal-tiempo {
+    @include contenedor-modales()
+}
+
+.modal {
+    @include modales();
+    @include flex-centrar($direccion: column, $content: space-around);
+    position: relative;
+    transition: transform 0.9s;
+    transform: translateY(0);
+}
+
+.cerrar-modal {
+    transform: translateY(-300%);
+}
+
+
+button {
+    @include formato-tarjetas();
+    font-family: $tipografia-secundaria;
+    font-size: 30px;
+    color: $color-principal;
+    cursor: pointer;
+}
+
+
+.cerrar {
+    color: $color-numeros;
+    font-family: $tipografia-secundaria;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.ishidden {
+    display: none;
+}
