@@ -64,7 +64,7 @@ body {
     border: 1px solid white
 }
 
-.contenedor-puntaje, .record {
+.contenedor-puntaje, .recordC {
     @include formato-tarjetas();
     @include flex-centrar();
     width: 140px;
@@ -84,15 +84,17 @@ body {
 }
 
 
-.record {
+.recordC {
     padding: $padding;
     font-family: $tipografia-secundaria;
 }
 
-
-p {
-    margin-top: 0;
+#record {
+    color: white;
+    font-size: 40px;
+    font-family: $tipografia-principal;
 }
+
 
 .timer {
     @include formato-tarjetas();
@@ -115,7 +117,7 @@ p {
 }
 
 .cerrar-modal {
-    // transform: translateY(-300%);
+    transform: translateY(-300%);
 }
 
 
@@ -135,3 +137,6 @@ button {
     cursor: pointer;
 }
 
+.ishidden {
+    display: none;
+}

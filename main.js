@@ -1,11 +1,14 @@
 const puntajeDom = document.querySelector(".puntaje");
 const contenedorGrilla = document.querySelector('.contenedor-grilla');
-const cerrarModal = document.querySelectorAll(".cerrar");
-const ventanaModalTiempo = document.getElementById("modal-tiempo");
+const contenedorModalTiempo = document.getElementById("contenedor-modal-tiempo")
+const modalTiempo = document.getElementById("modal-tiempo");
+const cerrarModalGameOver = document.getElementById("cerrar-modal-game-over");
 const temporizador = document.getElementById("temporizador");
 const botonEmpezar = document.getElementById("start");
 const segundosHTML = document.getElementById("segundosHTML");
-const minutosHTML = document.getElementById("minutosHTML")
+const minutosHTML = document.getElementById("minutosHTML");
+const recordHTML = document.getElementById("record");
+
 
 
 const width = 8;
@@ -16,7 +19,6 @@ let arrayPosiciones = [];
 let arrayIDs = [];
 let clickHabilitado = true;
 let puntaje = 0;
-let record = 0;
 let puntajeAnterior = 0;
 
 
@@ -51,11 +53,14 @@ const leerDesdeLocalStorage = (clave) => {
   return array
 }
 
+
 let recordAlmacenado = leerDesdeLocalStorage ('record_usuario');
 
 
+
 if (recordAlmacenado !== null) {
-  record = recordAlmacenado
+  recordHTML.textContent = recordAlmacenado
+ 
 }
 
 
@@ -159,6 +164,7 @@ const actualizarListaEmojis = () => {
 }
 
 const crearGrillaEnHTML = (array) => {
+  
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < width; j++) {
       const cuadrado = document.createElement('div');
@@ -177,7 +183,7 @@ const crearGrillaEnHTML = (array) => {
 }
 
 
-crearGrillaEnHTML(grilla)
+
 
 // Variable hoisting
 
@@ -254,8 +260,6 @@ const dosElementosCliqueados = () => {
       }
 
     }
-
-
     else {
       clickHabilitado = true;
       console.log('movimiento no permitido')
@@ -318,8 +322,6 @@ const vaciarMatches = (matriz) => {
 
 
 const imprimirPuntaje = () => {
-  console.log(puntaje)
-  console.log(puntajeAnterior)
   let puntajeActualSinResto = puntaje - puntaje%100;
   let puntajeAnteriorSinResto = puntajeAnterior - puntajeAnterior%100;
 
@@ -361,7 +363,6 @@ let rellenarCasillasVacias = () => {
 }
 
 
-
 let movimientoPermitido = () => {
   let x1 = arrayPosiciones[0]
   let y1 = arrayPosiciones[1]
@@ -377,19 +378,21 @@ let movimientoPermitido = () => {
 }
 
 
-cerrarModal.forEach((cruz)=> {
-  cruz.onclick = () => {
-    ventanaModalTiempo.style.display = "none";
-  }
-})
+cerrarModalGameOver.onclick = () => {
+  modalTiempo.classList.add("cerrar-modal")
+  setTimeout (()=> {
+    contenedorModalTiempo.classList.add("ishidden")
+  },700)
+  contenedorGrilla.innerHTML = ""
+  crearGrillaEnHTML(grilla)
+}
 
-emojisOnClick()
 
 
 const activarTemporizador = () => {
   
-  let minutos = 2;
-  let segundos = 0;
+  let minutos = 1;
+  let segundos = 30;
  
   let tiempo = setInterval(()=> {
    
@@ -408,12 +411,28 @@ const activarTemporizador = () => {
   
     if (minutos == 0  && segundos == 0) {
       clearInterval(tiempo)
+      contenedorModalTiempo.classList.remove("ishidden")
+      modalTiempo.classList.remove("cerrar-modal")
+      guardarPuntajeLocalStorage()
     }
   },1000)
 } 
-// 
+
+
+const guardarPuntajeLocalStorage = () => {
+  if (leerDesdeLocalStorage("record_usuario") < puntaje) {
+    guardarEnLocalStorage(puntaje, "record_usuario")
+    recordHTML.textContent = puntaje
+  }
+}
+
+
 
 
 botonEmpezar.onclick = () => {
-  activarTemporizador()
+  contenedorGrilla.innerHTML = "";
+  crearGrillaEnHTML(grilla);
+  emojisOnClick();
+  activarTemporizador();
+  
 }
