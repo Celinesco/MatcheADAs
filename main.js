@@ -414,6 +414,7 @@ const activarTemporizador = () => {
       contenedorModalTiempo.classList.remove("ishidden")
       modalTiempo.classList.remove("cerrar-modal")
       guardarPuntajeLocalStorage()
+      puntaje = 0;
     }
   },1000)
 } 
