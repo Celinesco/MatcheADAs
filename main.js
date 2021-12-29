@@ -12,7 +12,7 @@ const recordHTML = document.getElementById("record");
 
 
 const width = 8;
-const arrayDeEmojis = ["🪲", "🐞", "🪱", "🐜", "🦁", "🐝"];
+const arrayDeEmojis = ["🐢", "🐔", "🐖", "🦓", "🐥", "🦀"];
 let ijRepetidosFilas = [];
 let ijRepetidosColumnas = [];
 let arrayPosiciones = [];
