@@ -1,0 +1,25 @@
+{
+  "name": "matcheadas",
+  "version": "1.0.0",
+  "description": "juego simil candy crash",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Celinesco/MatcheADAs.git"
+  },
+  "keywords": [
+    "35447805"
+  ],
+  "author": "celinesco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Celinesco/MatcheADAs/issues"
+  },
+  "homepage": "https://github.com/Celinesco/MatcheADAs#readme",
+  "dependencies": {
+    "sass": "^1.45.0"
+  }
+}
