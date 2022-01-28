@@ -16,16 +16,16 @@
 h1 {
     font-family: $tipografia-principal;
     color: $color-principal;
-    font-size: 90px;
+    font-size: 400%;
     -webkit-text-stroke: 1px rgb(0, 0, 0);
 }
 
 body {
-    height: 100vh;
     @include flex-centrar();
     background-image: url('../images/fondo.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .contenedor-principal {
@@ -67,12 +67,14 @@ body {
 .contenedor-puntaje, .recordC {
     @include formato-tarjetas();
     @include flex-centrar();
-    width: 140px;
     height: 120px;
 }
 
 .contenedor-puntajes {
     width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 
@@ -83,9 +85,7 @@ body {
     transition-duration: 0.6s;
 }
 
-
 .recordC {
-    padding: $padding;
     font-family: $tipografia-secundaria;
 }
 
@@ -95,12 +95,10 @@ body {
     font-family: $tipografia-principal;
 }
 
-
 .timer {
     @include formato-tarjetas();
     @include flex-centrar($direccion: row);
     font-size: 30px;
-    margin-bottom: 100px;
     height: 100px;
 }
 
@@ -140,3 +138,5 @@ button {
 .ishidden {
     display: none;
 }
+
+@import "breakpoints"
