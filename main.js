@@ -11,7 +11,8 @@ const recordHTML = document.getElementById("record");
 
 
 
-const width = 8;
+const widthGrilla = 8;
+let tamanioCuadrado = 70;
 const arrayDeEmojis = ["🐢", "🐔", "🐖", "🦓", "🐥", "🦀"];
 let ijRepetidosFilas = [];
 let ijRepetidosColumnas = [];
@@ -85,9 +86,9 @@ const generadorDeGrilla = (rows, columns) => {
 
 const grillaVacia = () => {
   let grilla = [];
-  for (let i = 0; i < width; i++) {
+  for (let i = 0; i < widthGrilla; i++) {
     let subArray = [];
-    for (let j = 0; j < width; j++) {
+    for (let j = 0; j < widthGrilla; j++) {
       subArray.push(0)
     }
     grilla.push(subArray)
@@ -158,27 +159,46 @@ const grillaSinMatches = (cantidad) => {
 grilla = grillaSinMatches(8)
 
 
-const actualizarListaEmojis = () => {
-  let listaEmoji = document.querySelectorAll('.lista-emoji')
-  return listaEmoji
-}
-
 const crearGrillaEnHTML = (array) => {
-  
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < width; j++) {
+  for (let i = 0; i < widthGrilla; i++) {
+    for (let j = 0; j < widthGrilla; j++) {
       const cuadrado = document.createElement('div');
       cuadrado.setAttribute('class', 'lista-emoji');
       cuadrado.setAttribute('data-x', i)
       cuadrado.setAttribute('data-y', j)
-      cuadrado.setAttribute("id",i*width+j)
+      cuadrado.setAttribute("id",i*widthGrilla+j)
       cuadrado.style.position = "absolute";
-      cuadrado.style.top = `${i * 70}px`
-      cuadrado.style.left = `${j * 70}px`;
+      cuadrado.style.top = `${i * tamanioCuadrado+2}px`
+      cuadrado.style.left = `${j * tamanioCuadrado+2}px`;
       cuadrado.style.cursor = "pointer";
       cuadrado.textContent = array[i][j];
       contenedorGrilla.appendChild(cuadrado);
     }
+  }
+}
+
+
+const dimensionarCuadrado = () => {
+  if (window.innerWidth < 400) {
+      tamanioCuadrado = 35
+      contenedorGrilla.style.width = "290px"
+      contenedorGrilla.style.height = `290px`
+  }
+  if (window.innerWidth < 500) {
+    tamanioCuadrado = 45
+    contenedorGrilla.style.width = "360px"
+    contenedorGrilla.style.height = `360px`
+  }
+
+  if (window.innerWidth < 650) {
+    tamanioCuadrado = 50
+    contenedorGrilla.style.width = "400px"
+    contenedorGrilla.style.height = `400px`
+  }
+  else {
+    tamanioCuadrado = 65
+    contenedorGrilla.style.width = `${tamanioCuadrado * widthGrilla}px`
+    contenedorGrilla.style.height= `${tamanioCuadrado * widthGrilla}px`
   }
 }
 
@@ -188,7 +208,7 @@ const crearGrillaEnHTML = (array) => {
 // Variable hoisting
 
 const emojisOnClick = () => {
-  let listaEmoji = actualizarListaEmojis()
+  let listaEmoji = document.querySelectorAll('.lista-emoji')
   listaEmoji.forEach((emoji) => {
     emoji.onclick = (e) => {
       if (!clickHabilitado) return;
@@ -222,10 +242,10 @@ const imprimirGrillaLuegoDeAccion = () => {
 const cambiarPosicionCSS = (ax,ay,bx,by) => {
   let primerClick = document.getElementById(arrayIDs[0])
   let segundoClick = document.getElementById(arrayIDs[1])
-  primerClick.style.top = `${bx * 70}px`;
-  primerClick.style.left = `${by * 70}px`;
-  segundoClick.style.top = `${ax * 70}px`;
-  segundoClick.style.left = `${ay * 70}px`;
+  primerClick.style.top = `${bx * tamanioCuadrado}px`;
+  primerClick.style.left = `${by * tamanioCuadrado}px`;
+  segundoClick.style.top = `${ax * tamanioCuadrado}px`;
+  segundoClick.style.left = `${ay * tamanioCuadrado}px`;
 }
 
 
@@ -296,12 +316,12 @@ const vaciarMatches = (matriz) => {
     identificarTriosEnColumnas(grilla)
   
     puntajeAnterior = puntaje;
-    for (let i = 0; i < width; i++) {
-      for (let j = 0; j < width; j++) {
+    for (let i = 0; i < widthGrilla; i++) {
+      for (let j = 0; j < widthGrilla; j++) {
         if (elementosABorrar[i][j] === 1) {
           puntaje += 1 * 10
           matriz[i][j] = null;
-          let emoji1 = document.getElementById(i * width + j)
+          let emoji1 = document.getElementById(i * widthGrilla + j)
           desvanecerEmoji(emoji1)
         }
       }
@@ -432,8 +452,11 @@ const guardarPuntajeLocalStorage = () => {
 
 botonEmpezar.onclick = () => {
   contenedorGrilla.innerHTML = "";
+  dimensionarCuadrado()
   crearGrillaEnHTML(grilla);
   emojisOnClick();
   activarTemporizador();
+  // dimensionarCuadrado()
   
 }
+

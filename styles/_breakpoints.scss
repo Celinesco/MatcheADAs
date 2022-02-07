@@ -18,12 +18,18 @@
 
 
 @media (max-width: 575.98px) { 
-  
+    .contenedor-puntajes {
+        flex-wrap: wrap;
+        width: 280px
+    }
+    .lista-emoji {
+        font-size: 20px;
+    }
  }
 
 
  @media (max-width: 361px) {
-   
+ 
  }
 
  @media (max-width: 279.98px) {

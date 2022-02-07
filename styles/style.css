@@ -42,7 +42,7 @@ body {
   color: white;
   font-family: JustBubble;
   height: 566px;
-  width: 566px;
+  max-width: 566px;
   border-radius: 10px; }
 
 .lista-emoji {
@@ -50,8 +50,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 70px;
-  width: 70px;
+  min-height: 40px;
+  min-width: 40px;
   font-size: 30px;
   transition-property: left, top;
   transition-duration: 0.7s; }
@@ -177,7 +177,11 @@ button {
     .contenedor-puntajes div {
       height: 90px; } }
 @media (max-width: 575.98px) {
+  .contenedor-puntajes {
+    flex-wrap: wrap;
+    width: 280px; }
+
   .lista-emoji {
-    top: calc(100% / 30px); } }
+    font-size: 20px; } }
 
 /*# sourceMappingURL=style.css.map */
